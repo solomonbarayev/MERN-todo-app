@@ -1,5 +1,5 @@
 {
-  "name": "My To-Do App Backend",
+  "name": "MERN ToDo App Fullstack",
   "version": "1.0.0",
   "main": "app.js",
   "scripts": {
@@ -7,7 +7,8 @@
     "dev": "nodemon app.js",
     "start": "node app.js",
     "client": "cd client && npm start",
-    "concurrently": "concurrently \"npm run dev\" \"npm run client\""
+    "concurrently": "concurrently \"npm run dev\" \"npm run client\"",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
   },
   "author": "Solomon Barayev",
   "license": "ISC",

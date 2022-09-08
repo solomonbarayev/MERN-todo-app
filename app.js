@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 require('dotenv').config();
+const path = require('path');
 
 const tasksRouter = require('./routes/tasks');
 const userRouter = require('./routes/user');
@@ -27,6 +28,16 @@ const connectDB = async () => {
 
 app.use('/tasks', tasksRouter);
 app.use('/user', userRouter);
+
+///server statis assests  if in production
+if (process.env.NODE_ENV === 'production') {
+  //set static folder
+  app.use(express.static('client/build'));
+
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+  });
+}
 
 const port = process.env.PORT || 8080;
 
