@@ -226,31 +226,27 @@ function App() {
       )}
 
       <Modal show={showLogin} onHide={handleClose} class="modal">
-        <Modal.Header closeButton>
+        <Modal.Header className="modal-header">
           <Modal.Title>Login</Modal.Title>
+          <button closeButton onClick={handleClose} className="modal-close">
+            X
+          </button>
         </Modal.Header>
         <Modal.Body>
           <LoginForm />
         </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-        </Modal.Footer>
       </Modal>
 
       <Modal show={showRegister} onHide={handleCloseRegister} class="modal">
-        <Modal.Header closeButton>
+        <Modal.Header className="modal-header">
           <Modal.Title>Register</Modal.Title>
+          <button closeButton onClick={handleClose} className="modal-close">
+            X
+          </button>
         </Modal.Header>
         <Modal.Body>
           <RegisterForm />
         </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleCloseRegister}>
-            Close
-          </Button>
-        </Modal.Footer>
       </Modal>
     </section>
   );

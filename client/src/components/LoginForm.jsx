@@ -27,35 +27,30 @@ const LoginForm = () => {
   };
 
   return (
-    <Form class="login-form" onSubmit={handleSubmit}>
-      <Form.Group className="form-control" controlId="formBasicEmail">
-        <Form.Label>Email address</Form.Label>
-        <Form.Control
+    <form onSubmit={handleSubmit}>
+      <div className="form-control">
+        <label htmlFor="email">Email</label>
+        <input
           type="email"
-          placeholder="Enter email"
+          id="email"
           value={email}
           onChange={handleEmailChange}
         />
-        <Form.Text className="text-muted">
-          We'll never share your email with anyone else.
-        </Form.Text>
-      </Form.Group>
-
-      <Form.Group className="form-control" controlId="formBasicPassword">
-        <Form.Label>Password</Form.Label>
-        <Form.Control
+      </div>
+      <div className="form-control">
+        <label htmlFor="password">Password</label>
+        <input
           type="password"
-          placeholder="Password"
+          id="password"
           value={password}
           onChange={handlePasswordChange}
         />
-      </Form.Group>
-
-      <Button variant="primary" type="submit">
-        Submit
-      </Button>
-      {error && <p>{error}</p>}
-    </Form>
+      </div>
+      <button type="submit" class="form-submit">
+        Login
+      </button>
+      {error && <p className="form-error">{error}</p>}
+    </form>
   );
 };
 

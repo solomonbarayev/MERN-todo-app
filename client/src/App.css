@@ -36,3 +36,48 @@
     transform: rotate(360deg);
   }
 }
+
+@keyframes grow-shrink {
+  from {
+    transform: scale(0.9);
+  }
+  to {
+    transform: scale(0.97);
+  }
+}
+
+.error-message {
+  color: white;
+  animation: grow-shrink 0.9s infinite ease-in-out alternate;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+.modal-close {
+  /* padding: 20px; */
+  background: transparent;
+  border: solid 1px white;
+  color: white;
+  border-radius: 5px;
+  align-items: flex-end;
+  cursor: pointer;
+  top: 10px;
+  right: 10px;
+}
+
+.form-submit {
+  background: transparent;
+  border: solid 1px white;
+  color: white;
+  border-radius: 5px;
+  align-items: flex-end;
+  cursor: pointer;
+  padding: 8px;
+}
+
+.form-error {
+  color: orange;
+}
