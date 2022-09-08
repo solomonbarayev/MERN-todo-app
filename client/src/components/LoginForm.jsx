@@ -1,8 +1,6 @@
 // import 'bootstrap/dist/css/bootstrap.min.css';
 
 import React, { useState } from 'react';
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
 import { useLogin } from '../hooks/useLogin';
 
 const LoginForm = () => {
@@ -31,6 +29,7 @@ const LoginForm = () => {
       <div className="form-control">
         <label htmlFor="email">Email</label>
         <input
+          className="login-form-input"
           type="email"
           id="email"
           value={email}
@@ -40,6 +39,7 @@ const LoginForm = () => {
       <div className="form-control">
         <label htmlFor="password">Password</label>
         <input
+          className="login-form-input"
           type="password"
           id="password"
           value={password}

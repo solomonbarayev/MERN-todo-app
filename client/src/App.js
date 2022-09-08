@@ -7,11 +7,11 @@ import Form from './components/Form';
 import Task from './components/Task';
 import styled from 'styled-components';
 import Nav from './components/Nav';
-import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import LoginForm from './components/LoginForm';
 import RegisterForm from './components/RegisterForm';
 import { useAuth } from './contexts/AuthContext';
+import FormModal from './components/FormModal';
 
 function App() {
   const { user } = useAuth();
@@ -23,6 +23,19 @@ function App() {
 
   const [showLogin, setShowLogin] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
+
+  useEffect(() => {
+    user && getAllTasks();
+    user && handleCloseLogin();
+    user && handleCloseRegister();
+    !user && setTasks([]);
+  }, [user]);
+
+  useEffect(() => {
+    tasks.every((task) => task.isComplete === true)
+      ? setTotallyDone(true)
+      : setTotallyDone(false);
+  }, [tasks]);
 
   const getAllTasks = async () => {
     try {
@@ -39,17 +52,6 @@ function App() {
       console.error(error);
     }
   };
-
-  useEffect(() => {
-    user && getAllTasks();
-    !user && setTasks([]);
-  }, [user]);
-
-  useEffect(() => {
-    tasks.every((task) => task.isComplete === true)
-      ? setTotallyDone(true)
-      : setTotallyDone(false);
-  }, [tasks]);
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -78,21 +80,14 @@ function App() {
       const error = new Error('You must be logged in to delete a task');
       throw error;
     }
-    return (
-      fetch(`/tasks/${id}`, {
-        method: 'DELETE',
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
-      })
-        // .then(() => {
-        //   // setTasks([...tasks.filter((task) => task.id !== id)]);
-        //   getTasks();
-        // })
-        .then(() => {
-          getAllTasks();
-        })
-    );
+    return fetch(`/tasks/${id}`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
+    }).then(() => {
+      getAllTasks();
+    });
   };
 
   const onEditTask = (id) => {
@@ -167,14 +162,17 @@ function App() {
       });
   };
 
-  const handleClose = () => setShowLogin(false);
-  const handleShow = () => setShowLogin(true);
+  const handleCloseLogin = () => setShowLogin(false);
+  const handleShowLogin = () => setShowLogin(true);
   const handleCloseRegister = () => setShowRegister(false);
   const handleShowRegister = () => setShowRegister(true);
 
   return (
     <section className="container">
-      <Nav handleShow={handleShow} handleRegisterShow={handleShowRegister} />
+      <Nav
+        handleShow={handleShowLogin}
+        handleRegisterShow={handleShowRegister}
+      />
       <h1>What are we doing today?</h1>
       {editing ? (
         <Form
@@ -225,29 +223,23 @@ function App() {
         </Congratz>
       )}
 
-      <Modal show={showLogin} onHide={handleClose} class="modal">
-        <Modal.Header className="modal-header">
-          <Modal.Title>Login</Modal.Title>
-          <button closeButton onClick={handleClose} className="modal-close">
-            X
-          </button>
-        </Modal.Header>
-        <Modal.Body>
-          <LoginForm />
-        </Modal.Body>
-      </Modal>
+      <FormModal
+        show={showLogin}
+        onHide={handleCloseLogin}
+        title="Login"
+        onCloseClick={handleCloseLogin}
+      >
+        <LoginForm />
+      </FormModal>
 
-      <Modal show={showRegister} onHide={handleCloseRegister} class="modal">
-        <Modal.Header className="modal-header">
-          <Modal.Title>Register</Modal.Title>
-          <button closeButton onClick={handleClose} className="modal-close">
-            X
-          </button>
-        </Modal.Header>
-        <Modal.Body>
-          <RegisterForm />
-        </Modal.Body>
-      </Modal>
+      <FormModal
+        show={showRegister}
+        onHide={handleCloseRegister}
+        title="Register"
+        onCloseClick={handleCloseRegister}
+      >
+        <RegisterForm />
+      </FormModal>
     </section>
   );
 }
@@ -260,20 +252,3 @@ const Congratz = styled.div`
     margin-top: -30px;
   }
 `;
-
-// const Modal = styled.div`
-//   position: absolute;
-//   top: 50px;
-//   right: 50px;
-//   width: 300px;
-//   height: 300px;
-//   background-color: white;
-//   border-radius: 10px;
-//   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center;
-//   justify-content: center;
-//   z-index: 100;
-//   display: none;
-// `;
