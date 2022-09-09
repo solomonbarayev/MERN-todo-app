@@ -2,6 +2,9 @@ const express = require('express');
 const mongoose = require('mongoose');
 require('dotenv').config();
 const path = require('path');
+const compression = require('compression');
+const helmet = require('helmet');
+const cors = require('cors');
 
 const tasksRouter = require('./routes/tasks');
 const userRouter = require('./routes/user');
@@ -9,6 +12,9 @@ const userRouter = require('./routes/user');
 const app = express();
 
 // Middleware
+app.use(compression());
+app.use(helmet());
+app.use(cors());
 app.use(express.static('./public'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
