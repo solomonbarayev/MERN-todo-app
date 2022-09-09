@@ -5,6 +5,7 @@ const path = require('path');
 const compression = require('compression');
 const helmet = require('helmet');
 const cors = require('cors');
+const limiter = require('./utils/limiter');
 
 const tasksRouter = require('./routes/tasks');
 const userRouter = require('./routes/user');
@@ -12,6 +13,7 @@ const userRouter = require('./routes/user');
 const app = express();
 
 // Middleware
+app.use(limiter);
 app.use(compression());
 app.use(helmet());
 app.use(cors());
